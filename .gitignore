@@ -1,0 +1,15 @@
+# Env (keep .env.example)
+.env
+.env.local
+*.local
+
+# Go binary
+main
+
+# OS
+.DS_Store
+
+# Editor
+.idea
+.vscode/*
+!.vscode/extensions.json

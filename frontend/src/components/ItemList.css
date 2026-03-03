@@ -1,0 +1,93 @@
+.item-list {
+  background: white;
+  padding: 24px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.filter-section {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filter-section label {
+  font-weight: 500;
+  color: #424242;
+  font-size: 14px;
+}
+
+.category-filter {
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  font-size: 14px;
+  background: white;
+  color: #212121;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.category-filter:hover {
+  border-color: #9e9e9e;
+}
+
+.category-filter:focus {
+  outline: none;
+  border-color: #616161;
+}
+
+.item-count {
+  color: #757575;
+  font-size: 13px;
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #9e9e9e;
+}
+
+.empty-state p {
+  font-size: 16px;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 40px;
+  font-size: 16px;
+  background: white;
+  border: 1px solid #e0e0e0;
+}
+
+.loading {
+  color: #424242;
+}
+
+.error {
+  color: #212121;
+  border-color: #bdbdbd;
+}
+
+.btn-retry {
+  margin-top: 16px;
+  padding: 8px 16px;
+  background: #212121;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+
+.btn-retry:hover {
+  background: #424242;
+}
