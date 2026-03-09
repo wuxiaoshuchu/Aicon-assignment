@@ -4,6 +4,7 @@ import ItemForm from './components/ItemForm';
 import Summary from './components/Summary';
 import { getItemById, healthCheck } from './api/items';
 import './App.css';
+import SearchForm from './components/SearchForm'
 
 function App() {
   const [showForm, setShowForm] = useState(false);
@@ -82,7 +83,7 @@ function App() {
           <h1>所持品管理システム</h1>
           <div className="server-status">
             <span className={`status-indicator ${serverStatus}`}></span>
-            {serverStatus === 'online' ? 'サーバー接続中' : serverStatus === 'checking' ? '接続確認中...' : 'サーバー未接続'}
+            {serverStatus === 'online' ? 'サーバー接続済' : serverStatus === 'checking' ? '接続確認中...' : 'サーバー未接続'}
           </div>
         </div>
         <button onClick={handleAddItem} className="btn-add">
@@ -149,6 +150,7 @@ function App() {
           </div>
         ) : (
           <>
+            <SearchForm />
             <Summary refreshTrigger={refreshTrigger} />
             <ItemList
               onViewItem={handleViewItem}

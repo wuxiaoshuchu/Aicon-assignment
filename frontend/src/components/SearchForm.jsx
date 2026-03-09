@@ -7,7 +7,7 @@ function SearchForm({ onSearch }) {
   const categories = ['全部', '時計', 'バッグ', 'ジュエリー', '靴', 'その他']
 
   const handleSubmit = () => {
-    // ここに console.log を書く
+    console.log(searchName, searchCategory)
   }
 
   return (
@@ -16,14 +16,17 @@ function SearchForm({ onSearch }) {
       <input
         type="text"
         value={searchName}
-        onChange={/* ここ */}
+        /* onChange 需要的是一个函数 结构应该是 : onChange={/* 接收 e，然后用 e.target.value 调用 setSearchName */
+        onChange={(e) => setSearchName(e.target.value)} /* setSearchName是一个函数，调用函数要用() */
+        /* onChange是一个箭头函数 */
+        /* e 是事件对象，需要从箭头函数的参数里接收进来，不然函数不知道 e 是什么 */
         placeholder="商品名で検索"
       />
 
       {/* カテゴリー選択 */}
       <select
         value={searchCategory}
-        onChange={/* ここ */}
+        onChange={(e) => setSearchCategory(e.target.value)}
       >
         {categories.map(cat => (
           <option key={cat} value={cat}>{cat}</option>
