@@ -2,39 +2,44 @@ import { useState } from 'react'
 
 function SearchForm({ onSearch }) {
   const [searchName, setSearchName] = useState('')
-  const [searchCategory, setSearchCategory] = useState('全部')
+  const [searchCategory, setSearchCategory] = useState('all')
 
-  const categories = ['全部', '時計', 'バッグ', 'ジュエリー', '靴', 'その他']
+  const categories = ['all', '時計', 'バッグ', 'ジュエリー', '靴', 'その他']
 
   const handleSubmit = () => {
-    console.log(searchName, searchCategory)
+    onSearch({ name: searchName, category: searchCategory })
+  }
+
+  const handleReset = () => {
+    setSearchName('')
+    setSearchCategory('all')
+    onSearch({ name: '', category: 'all' })
   }
 
   return (
-    <div>
-      {/* 文字入力 */}
+    <div className="search-form">
       <input
         type="text"
         value={searchName}
-        /* onChange 需要的是一个函数 结构应该是 : onChange={/* 接收 e，然后用 e.target.value 调用 setSearchName */
-        onChange={(e) => setSearchName(e.target.value)} /* setSearchName是一个函数，调用函数要用() */
-        /* onChange是一个箭头函数 */
-        /* e 是事件对象，需要从箭头函数的参数里接收进来，不然函数不知道 e 是什么 */
+        onChange={(e) => setSearchName(e.target.value)}
         placeholder="商品名で検索"
+        className="search-input"
       />
 
-      {/* カテゴリー選択 */}
       <select
         value={searchCategory}
         onChange={(e) => setSearchCategory(e.target.value)}
+        className="search-select"
       >
         {categories.map(cat => (
-          <option key={cat} value={cat}>{cat}</option>
+          <option key={cat} value={cat}>
+            {cat === 'all' ? 'すべて' : cat}
+          </option>
         ))}
       </select>
 
-      {/* 検索ボタン */}
-      <button onClick={handleSubmit}>検索</button>
+      <button onClick={handleSubmit} className="btn-search">検索</button>
+      <button onClick={handleReset} className="btn-reset">リセット</button>
     </div>
   )
 }

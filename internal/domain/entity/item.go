@@ -1,3 +1,4 @@
+// 第一层：实体定义（Item长什么样）
 package entity
 
 import (

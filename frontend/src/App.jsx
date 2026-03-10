@@ -11,6 +11,7 @@ function App() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [serverStatus, setServerStatus] = useState('checking');
+  const [filters, setFilters] = useState({ name: '', category: 'all' });
 
   // 启动时检查服务器状态
   useEffect(() => {
@@ -150,11 +151,12 @@ function App() {
           </div>
         ) : (
           <>
-            <SearchForm />
+            <SearchForm onSearch={setFilters} />
             <Summary refreshTrigger={refreshTrigger} />
             <ItemList
               onViewItem={handleViewItem}
               refreshTrigger={refreshTrigger}
+              filters={filters}
             />
           </>
         )}

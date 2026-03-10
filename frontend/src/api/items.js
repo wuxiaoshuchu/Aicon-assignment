@@ -36,9 +36,17 @@ export const healthCheck = async () => {
 };
 
 // 获取所有物品
-export const getAllItems = async () => {
+export const getAllItems = async (filters) => {
+  const params = {} ;
+
+  if (filters?.name != ''){
+    params.name = filters.name;
+  }
+  if (filters?.category != "all"){
+    params.category = filters.category;
+  }
   try {
-    const response = await api.get('/items');
+    const response = await api.get('/items',{ params });
     return response.data;
   } catch (error) {
     handleError(error);

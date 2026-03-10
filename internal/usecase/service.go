@@ -1,3 +1,4 @@
+// 第二层业务逻辑中的业务逻辑在这里（要做什么）
 package usecase
 
 import (
@@ -10,6 +11,7 @@ import (
 
 type ItemUsecase interface {
 	GetAllItems(ctx context.Context) ([]*entity.Item, error)
+	SearchItems(ctx context.Context, name string, category string) ([]*entity.Item, error)
 	GetItemByID(ctx context.Context, id int64) (*entity.Item, error)
 	CreateItem(ctx context.Context, input CreateItemInput) (*entity.Item, error)
 	UpdateItem(ctx context.Context, id int64, input CreateItemInput) (*entity.Item, error)
@@ -42,6 +44,17 @@ func NewItemUsecase(itemRepo ItemRepository) ItemUsecase {
 
 func (u *itemUsecase) GetAllItems(ctx context.Context) ([]*entity.Item, error) {
 	items, err := u.itemRepo.FindAll(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to retrieve items: %w", err)
+	}
+
+	return items, nil
+}
+
+func (u *itemUsecase) SearchItems(ctx context.Context, name string, category string) ([]*entity.Item, error) {
+	// SearchItems 函数接收 name 和 category
+	items, err := u.itemRepo.Search(ctx, name, category)
+	// 调用 repository 时把它们传下去。
 	if err != nil {
 		return nil, fmt.Errorf("failed to retrieve items: %w", err)
 	}

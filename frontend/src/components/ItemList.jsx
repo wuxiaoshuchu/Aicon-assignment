@@ -3,23 +3,20 @@ import { getAllItems, deleteItem } from '../api/items';
 import ItemCard from './ItemCard';
 import './ItemList.css';
 
-function ItemList({ onViewItem, refreshTrigger }) {
+function ItemList({ onViewItem, refreshTrigger, filters }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState('all');
-
-  const categories = ['all', '時計', 'バッグ', 'ジュエリー', '靴', 'その他'];
 
   useEffect(() => {
     loadItems();
-  }, [refreshTrigger]);
+  }, [refreshTrigger, filters]);
 
   const loadItems = async () => {
     try {
       setLoading(true);
       setError(null);
-      const data = await getAllItems();
+      const data = await getAllItems(filters);
       setItems(data);
     } catch (err) {
       setError('アイテムの取得に失敗しました');
@@ -43,9 +40,13 @@ function ItemList({ onViewItem, refreshTrigger }) {
     }
   };
 
-  const filteredItems = selectedCategory === 'all'
-    ? items
-    : items.filter(item => item.category === selectedCategory);
+  const filteredItems = items.filter(item => {
+    const categoryMatch = !filters?.category || filters.category === 'all'
+      || item.category === filters.category;
+    const nameMatch = !filters?.name
+      || item.name.toLowerCase().includes(filters.name.toLowerCase());
+    return categoryMatch && nameMatch;
+  });
 
   if (loading) {
     return <div className="loading">読み込み中...</div>;
@@ -63,19 +64,7 @@ function ItemList({ onViewItem, refreshTrigger }) {
   return (
     <div className="item-list">
       <div className="filter-section">
-        <label>カテゴリーでフィルター:</label>
-        <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-          className="category-filter"
-        >
-          {categories.map(cat => (
-            <option key={cat} value={cat}>
-              {cat === 'all' ? 'すべて' : cat}
-            </option>
-          ))}
-        </select>
-        <span className="item-count">({filteredItems.length} 件)</span>
+        <span className="item-count">検索結果: {filteredItems.length} 件</span>
       </div>
 
       {filteredItems.length === 0 ? (

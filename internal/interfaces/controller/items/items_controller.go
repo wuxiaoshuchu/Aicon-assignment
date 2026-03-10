@@ -6,7 +6,7 @@ import (
 
 	domainErrors "Aicon-assignment/internal/domain/errors"
 	"Aicon-assignment/internal/usecase"
-
+	"Aicon-assignment/internal/domain/entity"
 	"github.com/labstack/echo/v4"
 )
 
@@ -27,8 +27,23 @@ type ErrorResponse struct {
 }
 
 func (h *ItemHandler) GetItems(c echo.Context) error {
-	items, err := h.itemUsecase.GetAllItems(c.Request().Context())
+	name := c.QueryParam("name") //从 URL 取 "name" 参数
+	category := c.QueryParam("category") // 从 URL 取 "category" 参数
+
+	var items []*entity.Item
+	var err error
+
+	if name != "" || category != "" {
+	// 如果 name 不是空的 或者 category 不是空的 {
+		items , err = h.itemUsecase.SearchItems(c.Request().Context(), name, category)
+		// items = 调用 h.itemUsecase.SearchItems(ctx, name, category)
+	}else{
+		items, err = h.itemUsecase.GetAllItems(c.Request().Context())
+		// items = 调用 h.itemUsecase.GetAllItems(ctx)
+	}
+
 	if err != nil {
+	// 如果出错 → 返回错误
 		return c.JSON(http.StatusInternalServerError, ErrorResponse{
 			Error: "failed to retrieve items",
 		})

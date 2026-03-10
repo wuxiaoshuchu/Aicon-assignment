@@ -1,3 +1,4 @@
+// 第二层业务逻辑中的菜单在这里
 package usecase
 
 import (
@@ -10,6 +11,8 @@ import (
 type ItemRepository interface {
 	// FindAll retrieves all items
 	FindAll(ctx context.Context) ([]*entity.Item, error)
+
+	Search(ctx context.Context, name string, category string) ([]*entity.Item, error)
 
 	// FindByID retrieves an item by ID
 	FindByID(ctx context.Context, id int64) (*entity.Item, error)
