@@ -29,13 +29,14 @@ type ErrorResponse struct {
 func (h *ItemHandler) GetItems(c echo.Context) error {
 	name := c.QueryParam("name") //从 URL 取 "name" 参数
 	category := c.QueryParam("category") // 从 URL 取 "category" 参数
+	sort := c.QueryParam("sort")
 
 	var items []*entity.Item
 	var err error
 
-	if name != "" || category != "" {
+	if name != "" || category != "" || sort != "" {
 	// 如果 name 不是空的 或者 category 不是空的 {
-		items , err = h.itemUsecase.SearchItems(c.Request().Context(), name, category)
+		items , err = h.itemUsecase.SearchItems(c.Request().Context(), name, category, sort)
 		// items = 调用 h.itemUsecase.SearchItems(ctx, name, category)
 	}else{
 		items, err = h.itemUsecase.GetAllItems(c.Request().Context())

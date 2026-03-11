@@ -11,7 +11,7 @@ import (
 
 type ItemUsecase interface {
 	GetAllItems(ctx context.Context) ([]*entity.Item, error)
-	SearchItems(ctx context.Context, name string, category string) ([]*entity.Item, error)
+	SearchItems(ctx context.Context, name string, category string, sort string) ([]*entity.Item, error)
 	GetItemByID(ctx context.Context, id int64) (*entity.Item, error)
 	CreateItem(ctx context.Context, input CreateItemInput) (*entity.Item, error)
 	UpdateItem(ctx context.Context, id int64, input CreateItemInput) (*entity.Item, error)
@@ -51,9 +51,9 @@ func (u *itemUsecase) GetAllItems(ctx context.Context) ([]*entity.Item, error) {
 	return items, nil
 }
 
-func (u *itemUsecase) SearchItems(ctx context.Context, name string, category string) ([]*entity.Item, error) {
+func (u *itemUsecase) SearchItems(ctx context.Context, name string, category string, sort string) ([]*entity.Item, error) {
 	// SearchItems 函数接收 name 和 category
-	items, err := u.itemRepo.Search(ctx, name, category)
+	items, err := u.itemRepo.Search(ctx, name, category, sort)
 	// 调用 repository 时把它们传下去。
 	if err != nil {
 		return nil, fmt.Errorf("failed to retrieve items: %w", err)

@@ -12,7 +12,7 @@ type ItemRepository interface {
 	// FindAll retrieves all items
 	FindAll(ctx context.Context) ([]*entity.Item, error)
 
-	Search(ctx context.Context, name string, category string) ([]*entity.Item, error)
+	Search(ctx context.Context, name string, category string, sort string) ([]*entity.Item, error)
 
 	// FindByID retrieves an item by ID
 	FindByID(ctx context.Context, id int64) (*entity.Item, error)
