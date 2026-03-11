@@ -1,3 +1,4 @@
+// 第四层技术设施中的数据库连接
 package databaseInfra
 
 import (

@@ -45,7 +45,7 @@ func (r *ItemRepository) FindAll(ctx context.Context) ([]*entity.Item, error) {
 	return items, nil
 }
 
-func (r *ItemRepository) Search(ctx context.Context, name string, category string) ([]*entity.Item, error) {
+func (r *ItemRepository) Search(ctx context.Context, name string, category string, sort string) ([]*entity.Item, error) {
 	// Search：按照名字/分类搜索商品
 	// name string, category string 就是"这个函数接收两个文字输入"。
 	// 当用户在浏览器输入 http://localhost:8080/items?name=rolex&category=時計 时：
@@ -81,9 +81,16 @@ func (r *ItemRepository) Search(ctx context.Context, name string, category strin
 	}
 	//  ↑ 如果 category 不是空字符串，就加条件
 	//    这里用 = 精确匹配，不用 LIKE
-
-	query += " ORDER BY created_at DESC"
-	//  ↑ 最后才加排序，保证条件都在 ORDER BY 前面
+	switch sort{
+	case "price_asc":
+		query += " ORDER BY purchase_price ASC"
+	case "price_desc":
+		query += " ORDER BY purchase_price DESC"
+	default:
+		query += " ORDER BY created_at DESC"	
+	}
+	// switch は「この値の場合は〇〇、あの値の場合は〇〇、それ以外は〇〇」という条件分岐です。
+	// if/else if の連続と同じ意味ですが、すっきり書けます。
 
 	// ---- 第 2 段：执行查询（直接抄 FindAll 的 24-43 行）----
 	rows, err := r.Query(ctx, query, args...)

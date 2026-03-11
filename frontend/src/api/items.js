@@ -45,6 +45,9 @@ export const getAllItems = async (filters) => {
   if (filters?.category != "all"){
     params.category = filters.category;
   }
+  if (filters?.sort && filters.sort !== '') {
+    params.sort = filters.sort;
+  }
   try {
     const response = await api.get('/items',{ params });
     return response.data;

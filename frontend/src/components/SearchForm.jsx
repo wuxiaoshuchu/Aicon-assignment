@@ -3,17 +3,24 @@ import { useState } from 'react'
 function SearchForm({ onSearch }) {
   const [searchName, setSearchName] = useState('')
   const [searchCategory, setSearchCategory] = useState('all')
+  const [searchSort, setSearchSort] = useState('')
 
   const categories = ['all', '時計', 'バッグ', 'ジュエリー', '靴', 'その他']
+  const sortOptions = [
+    { value: '', label: 'デフォルト（新着順）' },
+    { value: 'price_asc', label: '価格が安い順' },
+    { value: 'price_desc', label: '価格が高い順' },
+    { value: 'name_asc', label: '名前順' },
+  ]
 
   const handleSubmit = () => {
-    onSearch({ name: searchName, category: searchCategory })
+    onSearch({ name: searchName, category: searchCategory, sort: searchSort })
   }
 
   const handleReset = () => {
     setSearchName('')
     setSearchCategory('all')
-    onSearch({ name: '', category: 'all' })
+    onSearch({ name: '', category: 'all', sort:'' })
   }
 
   return (
@@ -34,6 +41,17 @@ function SearchForm({ onSearch }) {
         {categories.map(cat => (
           <option key={cat} value={cat}>
             {cat === 'all' ? 'すべて' : cat}
+          </option>
+        ))}
+      </select>
+      <select
+        value={searchSort}
+        onChange={(e) => setSearchSort(e.target.value)}
+        className="search-select"
+      >
+        {sortOptions.map(option => (
+          <option key={option.value} value={option.value}>
+            {option.label}
           </option>
         ))}
       </select>
